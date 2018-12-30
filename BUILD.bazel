@@ -1,0 +1,52 @@
+cc_toolchain_suite(
+    name = "toolchain",
+    toolchains = {
+        "x86_64-unknown-cloudabi|clang": ":cc-compiler-x86_64-unknown-cloudabi",
+        "freebsd|clang": "cc-compiler-x86_64-unknown-freebsd",
+    },
+)
+
+filegroup(name = "empty")
+
+# TODO(ed): Don't rely on the system copy of the CloudABI toolchain.
+# Instead, download a copy from llvm.org.
+cc_toolchain(
+    name = "cc-compiler-x86_64-unknown-cloudabi",
+    all_files = ":empty",
+    compiler_files = ":empty",
+    cpu = "x86_64-unknown-cloudabi",
+    dwp_files = ":empty",
+    dynamic_runtime_libs = [":empty"],
+    linker_files = ":empty",
+    objcopy_files = ":empty",
+    static_runtime_libs = [":empty"],
+    strip_files = ":empty",
+    supports_param_files = 0,
+    toolchain_identifier = "x86_64-unknown-cloudabi",
+    visibility = ["//visibility:public"],
+)
+
+toolchain(
+    name = "cc-toolchain-x86_64-unknown-cloudabi",
+    toolchain = ":cc-compiler-x86_64-unknown-cloudabi",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
+
+# TODO(ed): Why do we need to declare this here? Can't Bazel be
+# configured to register our toolchains in addition to the ones it knows
+# by default?
+cc_toolchain(
+    name = "cc-compiler-x86_64-unknown-freebsd",
+    all_files = ":empty",
+    compiler_files = ":empty",
+    cpu = "x86_64-unknown-freebsd",
+    dwp_files = ":empty",
+    dynamic_runtime_libs = [":empty"],
+    linker_files = ":empty",
+    objcopy_files = ":empty",
+    static_runtime_libs = [":empty"],
+    strip_files = ":empty",
+    supports_param_files = 0,
+    toolchain_identifier = "x86_64-unknown-freebsd",
+    visibility = ["//visibility:public"],
+)

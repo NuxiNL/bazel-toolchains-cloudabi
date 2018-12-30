@@ -1,0 +1,93 @@
+major_version: "local"
+minor_version: ""
+
+toolchain {
+  toolchain_identifier: "x86_64-unknown-cloudabi"
+  host_system_name: "x86_64-unknown-freebsd"
+  target_system_name: "x86_64-unknown-cloudabi"
+  target_cpu: "x86_64-unknown-cloudabi"
+  target_libc: "cloudlibc"
+  compiler: "clang"
+  abi_version: ""
+  abi_libc_version: ""
+  tool_path { name: "ar" path: "/usr/local/bin/x86_64-unknown-cloudabi-ar" }
+  tool_path { name: "ld" path: "/usr/local/bin/x86_64-unknown-cloudabi-ld" }
+  tool_path { name: "cpp" path: "/usr/local/bin/x86_64-unknown-cloudabi-cc" }
+  tool_path { name: "gcc" path: "/usr/local/bin/x86_64-unknown-cloudabi-cc" }
+  tool_path { name: "gcov" path: "/usr/bin/false" }
+  tool_path { name: "objdump" path: "/usr/bin/false" }
+  tool_path { name: "nm" path: "/usr/local/bin/x86_64-unknown-cloudabi-nm" }
+  tool_path { name: "objcopy" path: "/usr/local/bin/x86_64-unknown-cloudabi-objcopy" }
+  tool_path { name: "strip" path: "/usr/local/bin/x86_64-unknown-cloudabi-strip" }
+  cxx_builtin_include_directory: "/usr/local/llvm50/x86_64-unknown-cloudabi/include"
+  cxx_builtin_include_directory: "/usr/local/llvm50/lib/clang/5.0.2/include"
+  cxx_flag: "-std=c++17"
+  unfiltered_cxx_flag: "-Werror=date-time"
+  unfiltered_cxx_flag: "-Werror=implicit-function-declaration"
+}
+
+# TODO(ed): Why do we need to declare this here? Can't Bazel be
+# configured to register our toolchains in addition to the ones it knows
+# by default?
+toolchain {
+  abi_version: "local"
+  abi_libc_version: "local"
+  builtin_sysroot: ""
+  compiler: "compiler"
+  host_system_name: "local"
+  needsPic: true
+  supports_gold_linker: false
+  supports_incremental_linker: false
+  supports_fission: false
+  supports_interface_shared_objects: false
+  supports_normalizing_ar: false
+  supports_start_end_lib: false
+  target_libc: "local"
+  target_cpu: "freebsd"
+  target_system_name: "local"
+  toolchain_identifier: "x86_64-unknown-freebsd"
+  tool_path { name: "ar" path: "/usr/bin/ar" }
+  tool_path { name: "compat-ld" path: "/usr/bin/ld" }
+  tool_path { name: "cpp" path: "/usr/bin/cpp" }
+  tool_path { name: "dwp" path: "/usr/bin/dwp" }
+  tool_path { name: "gcc" path: "/usr/bin/clang" }
+  cxx_flag: "-std=c++0x"
+  linker_flag: "-lstdc++"
+  cxx_builtin_include_directory: "/usr/lib/clang"
+  cxx_builtin_include_directory: "/usr/local/include"
+  cxx_builtin_include_directory: "/usr/include"
+  tool_path { name: "gcov" path: "/usr/bin/gcov" }
+  tool_path { name: "ld" path: "/usr/bin/ld" }
+  tool_path { name: "nm" path: "/usr/bin/nm" }
+  tool_path { name: "objcopy" path: "/usr/bin/objcopy" }
+  objcopy_embed_flag: "-I"
+  objcopy_embed_flag: "binary"
+  tool_path { name: "objdump" path: "/usr/bin/objdump" }
+  tool_path { name: "strip" path: "/usr/bin/strip" }
+  unfiltered_cxx_flag: "-no-canonical-prefixes"
+  unfiltered_cxx_flag: "-Wno-builtin-macro-redefined"
+  unfiltered_cxx_flag: "-D__DATE__=\"redacted\""
+  unfiltered_cxx_flag: "-D__TIMESTAMP__=\"redacted\""
+  unfiltered_cxx_flag: "-D__TIME__=\"redacted\""
+  compiler_flag: "-U_FORTIFY_SOURCE"
+  compiler_flag: "-D_FORTIFY_SOURCE=1"
+  compiler_flag: "-fstack-protector"
+  linker_flag: "-Wl,-z,relro,-z,now"
+  compiler_flag: "-Wall"
+  compiler_flag: "-fno-omit-frame-pointer"
+  linker_flag: "-no-canonical-prefixes"
+  compilation_mode_flags {
+    mode: DBG
+    compiler_flag: "-g"
+  }
+  compilation_mode_flags {
+    mode: OPT
+    compiler_flag: "-g0"
+    compiler_flag: "-O2"
+    compiler_flag: "-DNDEBUG"
+    compiler_flag: "-ffunction-sections"
+    compiler_flag: "-fdata-sections"
+    linker_flag: "-Wl,--gc-sections"
+  }
+  linking_mode_flags { mode: DYNAMIC }
+}
