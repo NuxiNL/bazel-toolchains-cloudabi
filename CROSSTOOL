@@ -24,6 +24,22 @@ toolchain {
   cxx_flag: "-std=c++17"
   unfiltered_cxx_flag: "-Werror=date-time"
   unfiltered_cxx_flag: "-Werror=implicit-function-declaration"
+  linker_flag: "-lc++"
+  linker_flag: "-lc++abi"
+  linker_flag: "-lunwind"
+  compilation_mode_flags {
+    mode: DBG
+    compiler_flag: "-g"
+  }
+  compilation_mode_flags {
+    mode: OPT
+    compiler_flag: "-g0"
+    compiler_flag: "-O2"
+    compiler_flag: "-DNDEBUG"
+    compiler_flag: "-ffunction-sections"
+    compiler_flag: "-fdata-sections"
+    linker_flag: "-Wl,--gc-sections"
+  }
 }
 
 # TODO(ed): Why do we need to declare this here? Can't Bazel be
