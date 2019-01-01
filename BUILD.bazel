@@ -2,8 +2,10 @@ cc_toolchain_suite(
     name = "toolchain",
     toolchains = {
         "x86_64-unknown-cloudabi|clang": ":cc-compiler-x86_64-unknown-cloudabi",
+        "darwin|clang": "cc-compiler-x86_64-apple-darwin",
         "freebsd|clang": "cc-compiler-x86_64-unknown-freebsd",
     },
+    visibility = ["//visibility:public"],
 )
 
 filegroup(name = "empty")
@@ -35,6 +37,22 @@ toolchain(
 # TODO(ed): Why do we need to declare this here? Can't Bazel be
 # configured to register our toolchains in addition to the ones it knows
 # by default?
+cc_toolchain(
+    name = "cc-compiler-x86_64-apple-darwin",
+    all_files = ":empty",
+    compiler_files = ":empty",
+    cpu = "x86_64-apple-darwin",
+    dwp_files = ":empty",
+    dynamic_runtime_libs = [":empty"],
+    linker_files = ":empty",
+    objcopy_files = ":empty",
+    static_runtime_libs = [":empty"],
+    strip_files = ":empty",
+    supports_param_files = 0,
+    toolchain_identifier = "x86_64-apple-darwin",
+    visibility = ["//visibility:public"],
+)
+
 cc_toolchain(
     name = "cc-compiler-x86_64-unknown-freebsd",
     all_files = ":empty",
