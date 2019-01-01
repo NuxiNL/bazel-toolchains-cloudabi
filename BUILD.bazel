@@ -10,16 +10,41 @@ cc_toolchain_suite(
 
 filegroup(name = "empty")
 
-# TODO(ed): Don't rely on the system copy of the CloudABI toolchain.
-# Instead, download a copy from llvm.org.
+filegroup(
+    name = "compiler_files",
+    srcs = [
+        ":wrappers/clang",
+        "@org_cloudabi_cloudlibc_x86_64_unknown_cloudabi//:include",
+        "@org_llvm_libcxx_x86_64_unknown_cloudabi//:include",
+        "@org_llvm_llvm_x86_64_apple_darwin//:bin/clang-7",
+        "@org_llvm_llvm_x86_64_apple_darwin//:clang_headers",
+    ],
+)
+
+filegroup(
+    name = "linker_files",
+    srcs = [
+        ":wrappers/clang",
+        ":wrappers/llvm-ar",
+        "@org_cloudabi_cloudlibc_x86_64_unknown_cloudabi//:lib",
+        "@org_llvm_compiler_rt_x86_64_unknown_cloudabi//:lib",
+        "@org_llvm_libcxx_x86_64_unknown_cloudabi//:lib",
+        "@org_llvm_libcxxabi_x86_64_unknown_cloudabi//:lib",
+        "@org_llvm_libunwind_x86_64_unknown_cloudabi//:lib",
+        "@org_llvm_llvm_x86_64_apple_darwin//:bin/clang-7",
+        "@org_llvm_llvm_x86_64_apple_darwin//:bin/lld",
+        "@org_llvm_llvm_x86_64_apple_darwin//:bin/llvm-ar",
+    ],
+)
+
 cc_toolchain(
     name = "cc-compiler-x86_64-unknown-cloudabi",
-    all_files = ":empty",
-    compiler_files = ":empty",
+    all_files = ":compiler_files",
+    compiler_files = ":compiler_files",
     cpu = "x86_64-unknown-cloudabi",
     dwp_files = ":empty",
     dynamic_runtime_libs = [":empty"],
-    linker_files = ":empty",
+    linker_files = ":linker_files",
     objcopy_files = ":empty",
     static_runtime_libs = [":empty"],
     strip_files = ":empty",

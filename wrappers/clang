@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# This wrapper script is needed, due to the fact that the CROSSTOOL file
+# cannot refer to files outside of its workspace. We want to invoke an
+# executable that is downloaded separately.
+exec external/org_llvm_llvm_*/bin/clang-7 "$@"
