@@ -92,6 +92,6 @@ def toolchains_cloudabi_dependencies():
     http_archive(
         name = "org_cloudabi_cloudlibc_x86_64_unknown_cloudabi",
         build_file_content = _PACKAGES_BUILD_FILE,
-        sha256 = "594ccd94e86663b57dff5692d3afebaf6f15c9f8e5a4ce535cc1d619b437e2df",
-        urls = ["https://nuxi.nl/distfiles/cloudabi-ports/archlinux/x86_64-unknown-cloudabi-cloudlibc-0.102-1-any.pkg.tar.xz"],
+        sha256 = "a85d403d4bc06b5b74691e09c52bc37a1665d30ea48ba2c602976dbe73c4a531",
+        urls = ["https://nuxi.nl/distfiles/cloudabi-ports/archlinux/x86_64-unknown-cloudabi-cloudlibc-0.103-1-any.pkg.tar.xz"],
     )
