@@ -1,23 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-_PACKAGES_BUILD_FILE = """
-filegroup(
-    name = "include",
-    srcs = glob(["usr/x86_64-unknown-cloudabi/include/**"]),
-    visibility = ["//visibility:public"],
-)
-
-filegroup(
-    name = "lib",
-    srcs = glob(["usr/x86_64-unknown-cloudabi/lib/**"]),
-    visibility = ["//visibility:public"],
-)
-"""
-
-def toolchains_cloudabi_dependencies():
-    http_archive(
-        name = "org_llvm_llvm_x86_64_apple_darwin",
-        build_file_content = """
+_LLVM_BUILD_FILE = """
 exports_files([
     "bin/clang-7",
     "bin/lld",
@@ -45,10 +28,37 @@ filegroup(
     ),
     visibility = ["//visibility:public"],
 )
-""",
+"""
+
+_PACKAGES_BUILD_FILE = """
+filegroup(
+    name = "include",
+    srcs = glob(["usr/x86_64-unknown-cloudabi/include/**"]),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "lib",
+    srcs = glob(["usr/x86_64-unknown-cloudabi/lib/**"]),
+    visibility = ["//visibility:public"],
+)
+"""
+
+def toolchains_cloudabi_dependencies():
+    http_archive(
+        name = "org_llvm_llvm_x86_64_apple_darwin",
+        build_file_content = _LLVM_BUILD_FILE,
         sha256 = "b3ad93c3d69dfd528df9c5bb1a434367babb8f3baea47fbb99bf49f1b03c94ca",
         strip_prefix = "clang+llvm-7.0.0-x86_64-apple-darwin",
         urls = ["https://releases.llvm.org/7.0.0/clang+llvm-7.0.0-x86_64-apple-darwin.tar.xz"],
+    )
+
+    http_archive(
+        name = "org_llvm_llvm_x86_64_unknown_freebsd",
+        build_file_content = _LLVM_BUILD_FILE,
+        sha256 = "95ceb933ccf76e3ddaa536f41ab82c442bbac07cdea6f9fbf6e3b13cc1711255",
+        strip_prefix = "clang+llvm-7.0.0-amd64-unknown-freebsd11",
+        urls = ["https://releases.llvm.org/7.0.0/clang+llvm-7.0.0-amd64-unknown-freebsd11.tar.xz"],
     )
 
     http_archive(
