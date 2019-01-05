@@ -1,0 +1,114 @@
+--- include/jemalloc/internal/jemalloc_internal_decls.h
++++ include/jemalloc/internal/jemalloc_internal_decls.h
+@@ -16,9 +16,11 @@
+ #    endif
+ #  endif
+ #else
+-#  include <sys/param.h>
++#  ifndef __CloudABI__
++#    include <sys/param.h>
++#  endif
+ #  include <sys/mman.h>
+-#  if !defined(__pnacl__) && !defined(__native_client__)
++#  if !defined(__pnacl__) && !defined(__native_client__) && !defined(__CloudABI__)
+ #    include <sys/syscall.h>
+ #    if !defined(SYS_write) && defined(__NR_write)
+ #      define SYS_write __NR_write
+@@ -48,6 +50,9 @@
+ #include <sys/types.h>
+ 
+ #include <limits.h>
++#ifndef PATH_MAX
++#  define PATH_MAX 1024
++#endif
+ #ifndef SIZE_T_MAX
+ #  define SIZE_T_MAX	SIZE_MAX
+ #endif
+--- src/jemalloc.c
++++ src/jemalloc.c
+@@ -896,7 +896,7 @@ malloc_conf_init(void) {
+ 			break;
+ 		case 2: {
+ 			ssize_t linklen = 0;
+-#ifndef _WIN32
++#if !defined(_WIN32) && !defined(__CloudABI__)
+ 			int saved_errno = errno;
+ 			const char *linkname =
+ #  ifdef JEMALLOC_PREFIX
+--- src/malloc_io.c
++++ src/malloc_io.c
+@@ -70,7 +70,11 @@ static char *x2s(uintmax_t x, bool alt_form, bool uppercase, char *s,
+ /* malloc_message() setup. */
+ static void
+ wrtmessage(void *cbopaque, const char *s) {
++#ifdef __CloudABI__
++	malloc_write_fd(fileno(stderr), s, strlen(s));
++#else
+ 	malloc_write_fd(STDERR_FILENO, s, strlen(s));
++#endif
+ }
+ 
+ JEMALLOC_EXPORT void	(*je_malloc_message)(void *, const char *s);
+--- src/pages.c
++++ src/pages.c
+@@ -527,7 +527,9 @@ init_thp_state(void) {
+ 	static const char sys_state_never[] = "always madvise [never]\n";
+ 	char buf[sizeof(sys_state_madvise)];
+ 
+-#if defined(JEMALLOC_USE_SYSCALL) && defined(SYS_open)
++#ifdef __CloudABI__
++	int fd = -1;
++#elif defined(JEMALLOC_USE_SYSCALL) && defined(SYS_open)
+ 	int fd = (int)syscall(SYS_open,
+ 	    "/sys/kernel/mm/transparent_hugepage/enabled", O_RDONLY);
+ #else
+--- src/prof.c
++++ src/prof.c
+@@ -958,7 +958,11 @@ static int
+ prof_dump_open_impl(bool propagate_err, const char *filename) {
+ 	int fd;
+ 
++#ifdef __CloudABI__
++	fd = -1;
++#else
+ 	fd = creat(filename, 0644);
++#endif
+ 	if (fd == -1 && !propagate_err) {
+ 		malloc_printf("<jemalloc>: creat(\"%s\"), 0644) failed\n",
+ 		    filename);
+@@ -1410,7 +1414,9 @@ prof_open_maps(const char *format, ...) {
+ 	malloc_vsnprintf(filename, sizeof(filename), format, ap);
+ 	va_end(ap);
+ 
+-#if defined(O_CLOEXEC)
++#ifdef __CloudABI__
++	mfd = -1;
++#elif defined(O_CLOEXEC)
+ 	mfd = open(filename, O_RDONLY | O_CLOEXEC);
+ #else
+ 	mfd = open(filename, O_RDONLY);
+@@ -1427,6 +1433,8 @@ static int
+ prof_getpid(void) {
+ #ifdef _WIN32
+ 	return GetCurrentProcessId();
++#elif defined(__CloudABI__)
++	return 0;
+ #else
+ 	return getpid();
+ #endif
+--- src/tsd.c
++++ src/tsd.c
+@@ -171,7 +171,12 @@ malloc_tsd_dalloc(void *wrapper) {
+ JEMALLOC_EXPORT
+ #endif
+ void
+-_malloc_thread_cleanup(void) {
++#ifdef __CloudABI__
++__malloc_thread_cleanup(void)
++#else
++_malloc_thread_cleanup(void)
++#endif
++{
+ 	bool pending[MALLOC_TSD_CLEANUPS_MAX], again;
+ 	unsigned i;
+ 

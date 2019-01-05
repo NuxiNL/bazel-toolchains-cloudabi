@@ -1,0 +1,13 @@
+# Some targets add -lc, -lm, etc. to the linkopts. Provide a set of
+# empty libraries to appease the linker.
+filegroup(
+    name = "library_stubs",
+    srcs = [
+        "libc.a",
+        "libm.a",
+        "libpthread.a",
+        "librt.a",
+        "libxnet.a",
+    ],
+    visibility = ["//:__pkg__"],
+)

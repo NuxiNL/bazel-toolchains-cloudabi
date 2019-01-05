@@ -1,0 +1,12 @@
+--- BUILD
++++ BUILD
+@@ -28,6 +28,9 @@ cc_library(
+         "double-conversion/ieee.h",
+         "double-conversion/strtod.h",
+     ],
++    includes = [
++        ".",
++    ],
+     linkopts = [
+         "-lm",
+     ],

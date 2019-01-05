@@ -1,0 +1,90 @@
+--- include/csignal
++++ include/csignal
+@@ -49,8 +49,10 @@
+ 
+ _LIBCPP_BEGIN_NAMESPACE_STD
+ 
++#ifndef __CloudABI__
+ using ::sig_atomic_t;
+ using ::signal;
++#endif
+ using ::raise;
+ 
+ _LIBCPP_END_NAMESPACE_STD
+--- include/cstdio
++++ include/cstdio
+@@ -116,13 +116,17 @@
+ using ::fprintf;
+ using ::fscanf;
+ using ::snprintf;
++#ifndef __CloudABI__
+ using ::sprintf;
++#endif
+ using ::sscanf;
+ using ::vfprintf;
+ using ::vfscanf;
+ using ::vsscanf;
+ using ::vsnprintf;
++#ifndef __CloudABI__
+ using ::vsprintf;
++#endif
+ using ::fgetc;
+ using ::fgets;
+ using ::fputc;
+--- include/cstdlib
++++ include/cstdlib
+@@ -121,7 +121,9 @@
+ using ::strtoull;
+ #endif // _LIBCPP_HAS_NO_LONG_LONG
+ using ::rand;
++#ifndef __CloudABI__
+ using ::srand;
++#endif
+ using ::calloc;
+ using ::free;
+ using ::malloc;
+@@ -132,8 +134,10 @@
+ using ::_Exit;
+ #ifndef _LIBCPP_WINDOWS_STORE_APP
+ using ::getenv;
++#ifndef __CloudABI__
+ using ::system;
+ #endif
++#endif
+ using ::bsearch;
+ using ::qsort;
+ using ::abs;
+--- include/cstring
++++ include/cstring
+@@ -69,10 +69,14 @@
+ using ::size_t;
+ using ::memcpy;
+ using ::memmove;
++#ifndef __CloudABI__
+ using ::strcpy;
++#endif
+ using ::strncpy;
++#ifndef __CloudABI__
+ using ::strcat;
+ using ::strncat;
++#endif
+ using ::memcmp;
+ using ::strcmp;
+ using ::strncmp;
+--- include/cwchar
++++ include/cwchar
+@@ -145,10 +145,14 @@
+ #ifndef _LIBCPP_HAS_NO_LONG_LONG
+ using ::wcstoull;
+ #endif // _LIBCPP_HAS_NO_LONG_LONG
++#ifndef __CloudABI__
+ using ::wcscpy;
++#endif
+ using ::wcsncpy;
++#ifndef __CloudABI__
+ using ::wcscat;
+ using ::wcsncat;
++#endif
+ using ::wcscmp;
+ using ::wcscoll;
+ using ::wcsncmp;

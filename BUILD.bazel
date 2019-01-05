@@ -14,10 +14,10 @@ filegroup(
     name = "compiler_files",
     srcs = [
         ":wrappers/clang",
-        "@org_cloudabi_cloudlibc_x86_64_unknown_cloudabi//:include",
-        "@org_llvm_libcxx_x86_64_unknown_cloudabi//:include",
-        "@org_llvm_llvm_x86_64_apple_darwin//:bin/clang-7",
-        "@org_llvm_llvm_x86_64_apple_darwin//:clang_headers",
+        "@org_cloudabi_cloudlibc//src/include",
+        "@org_llvm_libcxx//:libcxx_headers",
+        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/clang-7",
+        "@org_llvm_llvm_x86_64_unknown_freebsd//:clang_headers",
     ],
 )
 
@@ -26,14 +26,10 @@ filegroup(
     srcs = [
         ":wrappers/clang",
         ":wrappers/llvm-ar",
-        "@org_cloudabi_cloudlibc_x86_64_unknown_cloudabi//:lib",
-        "@org_llvm_compiler_rt_x86_64_unknown_cloudabi//:lib",
-        "@org_llvm_libcxx_x86_64_unknown_cloudabi//:lib",
-        "@org_llvm_libcxxabi_x86_64_unknown_cloudabi//:lib",
-        "@org_llvm_libunwind_x86_64_unknown_cloudabi//:lib",
-        "@org_llvm_llvm_x86_64_apple_darwin//:bin/clang-7",
-        "@org_llvm_llvm_x86_64_apple_darwin//:bin/lld",
-        "@org_llvm_llvm_x86_64_apple_darwin//:bin/llvm-ar",
+        "//library_stubs",
+        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/clang-7",
+        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/lld",
+        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/llvm-ar",
     ],
 )
 
@@ -92,4 +88,19 @@ cc_toolchain(
     supports_param_files = 0,
     toolchain_identifier = "x86_64-unknown-freebsd",
     visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "cxx_runtime",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@net_jemalloc_jemalloc//:jemalloc",
+        "@org_cloudabi_cloudlibc//src/crt",
+        "@org_cloudabi_cloudlibc//src/libc",
+        "@org_llvm_compiler_rt//:compiler-rt",
+        "@org_llvm_libcxx//:libcxx",
+        "@org_llvm_libunwind//:libunwind",
+        "@org_musl_libc_musl//src/complex",
+        "@org_musl_libc_musl//src/math",
+    ],
 )

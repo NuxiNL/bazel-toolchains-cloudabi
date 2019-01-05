@@ -1,0 +1,13 @@
+cc_library(
+    name = "libcxxabi",
+    srcs = glob([
+        "src/**/*.cpp",
+        "src/**/*.h",
+        "src/**/*.hpp",
+    ]),
+    hdrs = glob(["include/**"]),
+    defines = ["NDEBUG"],
+    copts = ["-std=c++11"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
