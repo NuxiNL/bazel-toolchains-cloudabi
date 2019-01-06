@@ -10,6 +10,18 @@ cc_toolchain_suite(
 
 filegroup(name = "empty")
 
+config_setting(
+    name = "host_x86_64_apple_darwin",
+    values = {"host_cpu": "darwin"},
+    visibility = ["//visibility:public"],
+)
+
+config_setting(
+    name = "host_x86_64_unknown_freebsd",
+    values = {"host_cpu": "freebsd"},
+    visibility = ["//visibility:public"],
+)
+
 filegroup(
     name = "compiler_files",
     srcs = [
@@ -17,8 +29,10 @@ filegroup(
         "@org_cloudabi_cloudlibc//src/include",
         "@org_llvm_cfe//:clang_headers",
         "@org_llvm_libcxx//:libcxx_headers",
-        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/clang-7",
-    ],
+    ] + select({
+        ":host_x86_64_apple_darwin": ["@org_llvm_llvm_x86_64_apple_darwin//:bin/clang-7"],
+        ":host_x86_64_unknown_freebsd": ["@org_llvm_llvm_x86_64_unknown_freebsd//:bin/clang-7"],
+    }),
 )
 
 filegroup(
@@ -27,10 +41,18 @@ filegroup(
         ":wrappers/clang",
         ":wrappers/llvm-ar",
         "//library_stubs",
-        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/clang-7",
-        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/lld",
-        "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/llvm-ar",
-    ],
+    ] + select({
+        ":host_x86_64_apple_darwin": [
+            "@org_llvm_llvm_x86_64_apple_darwin//:bin/clang-7",
+            "@org_llvm_llvm_x86_64_apple_darwin//:bin/lld",
+            "@org_llvm_llvm_x86_64_apple_darwin//:bin/llvm-ar",
+        ],
+        ":host_x86_64_unknown_freebsd": [
+            "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/clang-7",
+            "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/lld",
+            "@org_llvm_llvm_x86_64_unknown_freebsd//:bin/llvm-ar",
+        ],
+    }),
 )
 
 cc_toolchain(
