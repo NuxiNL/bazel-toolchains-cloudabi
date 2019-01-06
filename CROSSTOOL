@@ -3,7 +3,7 @@ minor_version: ""
 
 toolchain {
   toolchain_identifier: "x86_64-unknown-cloudabi"
-  host_system_name: "x86_64-unknown-freebsd"
+  host_system_name: "local"
   target_system_name: "x86_64-unknown-cloudabi"
   target_cpu: "x86_64-unknown-cloudabi"
   target_libc: "cloudlibc"
@@ -22,9 +22,8 @@ toolchain {
 
   cxx_flag: "-std=c++17"
   unfiltered_cxx_flag: "--target=x86_64-unknown-cloudabi"
-  unfiltered_cxx_flag: "-nostdinc"
   unfiltered_cxx_flag: "-isystem"
-  unfiltered_cxx_flag: "external/org_llvm_llvm_x86_64_unknown_freebsd/lib/clang/7.0.0/include"
+  unfiltered_cxx_flag: "external/org_llvm_cfe/lib/Headers"
   unfiltered_cxx_flag: "-isystem"
   unfiltered_cxx_flag: "external/org_llvm_libcxx/include"
   unfiltered_cxx_flag: "-isystem"
@@ -35,7 +34,6 @@ toolchain {
   linker_flag: "--target=x86_64-unknown-cloudabi"
   linker_flag: "-nostdlib"
   linker_flag: "-Wno-unused-command-line-argument"
-  linker_flag: "-Bexternal/org_llvm_llvm_x86_64_unknown_freebsd/bin"
   linker_flag: "-fuse-ld=lld"
   linker_flag: "-Lexternal/org_cloudabi_bazel_toolchains_cloudabi/library_stubs"
 

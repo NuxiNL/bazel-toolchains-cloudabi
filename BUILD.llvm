@@ -3,25 +3,3 @@ exports_files([
     "bin/lld",
     "bin/llvm-ar",
 ])
-
-filegroup(
-    name = "clang_headers",
-    srcs = glob(
-        include = ["lib/clang/*/include/**"],
-        exclude = [
-            "lib/clang/*/include/float.h",
-            "lib/clang/*/include/inttypes.h",
-            "lib/clang/*/include/iso646.h",
-            "lib/clang/*/include/limits.h",
-            "lib/clang/*/include/stdalign.h",
-            "lib/clang/*/include/stdarg.h",
-            "lib/clang/*/include/stdatomic.h",
-            "lib/clang/*/include/stdbool.h",
-            "lib/clang/*/include/stddef.h",
-            "lib/clang/*/include/stdint.h",
-            "lib/clang/*/include/stdnoreturn.h",
-            "lib/clang/*/include/tgmath.h",
-        ],
-    ),
-    visibility = ["//visibility:public"],
-)

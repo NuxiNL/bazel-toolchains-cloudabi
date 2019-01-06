@@ -1,0 +1,21 @@
+filegroup(
+    name = "clang_headers",
+    srcs = glob(
+        include = ["lib/Headers/**"],
+        exclude = [
+            "lib/Headers/float.h",
+            "lib/Headers/inttypes.h",
+            "lib/Headers/iso646.h",
+            "lib/Headers/limits.h",
+            "lib/Headers/stdalign.h",
+            "lib/Headers/stdarg.h",
+            "lib/Headers/stdatomic.h",
+            "lib/Headers/stdbool.h",
+            "lib/Headers/stddef.h",
+            "lib/Headers/stdint.h",
+            "lib/Headers/stdnoreturn.h",
+            "lib/Headers/tgmath.h",
+        ],
+    ),
+    visibility = ["//visibility:public"],
+)

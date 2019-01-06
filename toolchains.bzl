@@ -38,6 +38,14 @@ def toolchains_cloudabi_dependencies():
         )
 
     http_archive(
+        name = "org_llvm_cfe",
+        build_file = "@org_cloudabi_bazel_toolchains_cloudabi//:BUILD.cfe",
+        sha256 = "a45b62dde5d7d5fdcdfa876b0af92f164d434b06e9e89b5d0b1cbc65dfe3f418",
+        strip_prefix = "cfe-7.0.1.src",
+        urls = ["https://releases.llvm.org/7.0.1/cfe-7.0.1.src.tar.xz"],
+    )
+
+    http_archive(
         name = "org_llvm_compiler_rt",
         build_file = "@org_cloudabi_bazel_toolchains_cloudabi//:BUILD.compiler-rt",
         sha256 = "782edfc119ee172f169c91dd79f2c964fb6b248bd9b73523149030ed505bbe18",
