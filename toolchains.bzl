@@ -18,6 +18,14 @@ def toolchains_cloudabi_dependencies():
         urls = ["https://releases.llvm.org/7.0.0/clang+llvm-7.0.0-amd64-unknown-freebsd11.tar.xz"],
     )
 
+    http_archive(
+        name = "org_llvm_llvm_x86_64_unknown_linux_gnu",
+        build_file = "@org_cloudabi_bazel_toolchains_cloudabi//:BUILD.llvm",
+        sha256 = "5c90e61b06d37270bc26edb305d7e498e2c7be22d99e0afd9f2274ef5458575a",
+        strip_prefix = "clang+llvm-7.0.0-x86_64-linux-gnu-ubuntu-14.04",
+        urls = ["https://releases.llvm.org/7.0.0/clang+llvm-7.0.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz"],
+    )
+
     git_repository(
         name = "org_cloudabi_argdata",
         commit = "191ab391fbe0be3edbee59bedd73165de9b3abf5",
