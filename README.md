@@ -3,7 +3,7 @@
 This repository contains toolchain definitions for the
 [Bazel build system](https://bazel.build/) to cross compile C/C++ code
 for [CloudABI](https://cloudabi.org/). Instead of relying on a toolchain
-that are provided by the host operating system, these rules
+that is provided by the host operating system, these rules
 automatically download development tools (e.g. [Clang](https://clang.llvm.org/))
 and cross compile core C/C++ libraries (e.g.,
 [cloudlibc](https://github.com/NuxiNL/cloudlibc)) during build. This has
