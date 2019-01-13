@@ -38,6 +38,13 @@ def toolchains_cloudabi_dependencies():
         remote = "https://github.com/NuxiNL/cloudabi.git",
     )
 
+    if "org_cloudabi_cloudabi_utils" not in native.existing_rules():
+        git_repository(
+            name = "org_cloudabi_cloudabi_utils",
+            commit = "be1ce21e1dded9c0c0a6ebe144cbea01cf44a874",
+            remote = "https://github.com/NuxiNL/cloudabi-utils.git",
+        )
+
     if "org_cloudabi_cloudlibc" not in native.existing_rules():
         git_repository(
             name = "org_cloudabi_cloudlibc",

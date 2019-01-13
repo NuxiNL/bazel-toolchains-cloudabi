@@ -155,3 +155,10 @@ cc_library(
         "@org_musl_libc_musl//src/math",
     ],
 )
+
+cc_binary(
+    name = "run_test",
+    srcs = ["run_test.c"],
+    visibility = ["//visibility:public"],
+    deps = ["@org_cloudabi_cloudabi_utils//src/libcloudabi"],
+)
