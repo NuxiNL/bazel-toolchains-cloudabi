@@ -16,6 +16,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#ifndef O_EXEC
+#define O_EXEC O_RDONLY
+#endif
+
 int main(int argc, char **argv) {
   // Test executable.
   int execfd = open(argv[1], O_EXEC);
